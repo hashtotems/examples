@@ -4,5 +4,5 @@ node_modules
 types
 .vscode
 #Hardhat files
-
+.env
 

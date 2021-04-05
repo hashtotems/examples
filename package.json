@@ -8,8 +8,10 @@
     "node": "hardhat node",
     "console": "hardhat console",
     "format": "prettier --write contracts/**/*.sol",
-    "format:ts": "prettier --write test/**/*.ts",
+    "format:ts": "prettier --write scripts/*.ts test/**/*.ts",
     "deploy": "hardhat run --network localhost scripts/deploy.ts",
+    "deploy:rinkeby": "hardhat run scripts/deploy-rinkeby.ts --network rinkeby",
+    "verify:rinkeby": "hardhat verify --network rinkeby 0xa27D1ceBFC8c2719bCda9880fE5882e0d8a733dD",
     "invoke": "hardhat run --network localhost scripts/invoke.ts",
     "typegen": "typechain --target=ethers-v5 --outDir=types artifacts/contracts/CryptoBubblesArt.sol/CryptoBubblesArt.json",
     "test": "hardhat test test/cba/setup"
@@ -24,6 +26,7 @@
   "license": "ISC",
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "@nomiclabs/hardhat-etherscan": "^2.1.1",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@openzeppelin/contracts": "^4.0.0",
     "@typechain/ethers-v5": "^2.0.0",
@@ -33,6 +36,7 @@
     "@types/node": "^14.14.37",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
+    "dotenv": "^8.2.0",
     "ethereum-waffle": "^3.3.0",
     "ethers": "^5.1.0",
     "hardhat": "^2.1.2",
