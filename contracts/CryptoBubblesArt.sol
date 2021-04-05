@@ -63,7 +63,6 @@ contract CryptoBubblesArt is IERC721Metadata, ERC721PresetMinterPauserAutoId {
         uint256 currentSupply = totalSupply();
 
         require(currentSupply < MAX_SUPPLY, "finished");
-        require(amount > 0 && amount <= MAX_AMOUNT, "fixed amount");
         require(currentSupply.add(amount) <= MAX_SUPPLY, "not enought bubbles");
 
         uint256 estimatedPrice = estimatePrice(amount);
@@ -75,7 +74,8 @@ contract CryptoBubblesArt is IERC721Metadata, ERC721PresetMinterPauserAutoId {
         }
     }
 
-    function estimatePrice(uint256 amount) public view returns (uint256) {
+    function estimatePrice(uint256 amount) public view virtual returns (uint256) {
+        require(amount > 0 && amount <= MAX_AMOUNT, "fixed amount");
         return _estimatePrice(amount);
     }
 
