@@ -1,0 +1,50 @@
+{
+  "name": "hh-contracts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "node": "hardhat node",
+    "console": "hardhat console",
+    "format": "prettier --write contracts/**/*.sol",
+    "format:ts": "prettier --write test/**/*.ts",
+    "deploy": "hardhat run --network localhost scripts/deploy.ts",
+    "invoke": "hardhat run --network localhost scripts/invoke.ts",
+    "typegen": "typechain --target=ethers-v5 --outDir=types artifacts/contracts/CryptoBubblesArt.sol/CryptoBubblesArt.json",
+    "test": "hardhat test test/cba/setup"
+  },
+  "semistandard": {
+    "env": [
+      "mocha"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@openzeppelin/contracts": "^4.0.0",
+    "@typechain/ethers-v5": "^2.0.0",
+    "@types/chai": "^4.2.15",
+    "@types/chai-as-promised": "^7.1.3",
+    "@types/mocha": "^8.2.2",
+    "@types/node": "^14.14.37",
+    "chai": "^4.3.4",
+    "chai-as-promised": "^7.1.1",
+    "ethereum-waffle": "^3.3.0",
+    "ethers": "^5.1.0",
+    "hardhat": "^2.1.2",
+    "hardhat-gas-reporter": "^1.0.4",
+    "husky": "^6.0.0",
+    "prettier": "^2.2.1",
+    "prettier-plugin-solidity": "^1.0.0-beta.7",
+    "solhint": "^3.3.4",
+    "solhint-plugin-prettier": "^0.0.5",
+    "ts-generator": "^0.1.1",
+    "ts-node": "^9.1.1",
+    "typechain": "^3.0.0",
+    "typescript": "^4.2.3"
+  }
+}
