@@ -179,4 +179,21 @@ describe("Contract", function () {
       ethers.utils.formatEther(bal.toString()).should.equal("0.15");
     });
   });
+
+  describe("Estimate", function () {
+    beforeEach(async function () {
+      await this.contract.unpause();
+    });
+
+    it("should estimate how much wei is required for purchasing", async function () {
+      await this.contract.connect(this.address1).estimatePrice("0")
+        .should.be.rejectedWith("fixed amount");
+      
+      await this.contract.connect(this.address1).estimatePrice("21")
+        .should.be.rejectedWith("fixed amount");
+
+      const price = await this.contract.connect(this.address1).estimatePrice("20");
+      ethers.utils.formatEther(price.toString()).should.equal("1.0"); // 20 * 0.05
+    });
+  });
 });
