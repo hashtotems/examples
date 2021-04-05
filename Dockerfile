@@ -16,5 +16,3 @@ COPY . .
 
 RUN npm run compile
 RUN npm run typegen
-
-RUN pip3 install slither-analyzer
