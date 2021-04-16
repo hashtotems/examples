@@ -1,10 +1,10 @@
 import { ethers } from "hardhat";
-import { CryptoBubblesArtFactory } from "../types";
+import { BubblesFactory } from "../types";
 
 (async () => {
   const Factory = (await ethers.getContractFactory(
-    "CryptoBubblesArt"
-  )) as CryptoBubblesArtFactory;
+    "Bubbles"
+  )) as BubblesFactory;
 
   const contract = await Factory.deploy();
   await contract.deployed();
@@ -13,9 +13,9 @@ import { CryptoBubblesArtFactory } from "../types";
     await contract.unpause();
   }
 
-  const signer = ethers.provider.getSigner(
-    "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
-  );
+  const userAddress = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266";
+  const signer = ethers.provider.getSigner(userAddress);
+
   const contractWithSigner = contract.connect(signer);
 
   console.log(
@@ -26,6 +26,7 @@ import { CryptoBubblesArtFactory } from "../types";
 
   console.log(await contract.ownerOf("0"));
   console.log(await contract.tokenURI("0"));
+  console.log(await contract.tokensOfOwner(userAddress));
 })();
 
 process.on("unhandledRejection", (reason, promise) => {

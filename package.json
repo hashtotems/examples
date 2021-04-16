@@ -13,7 +13,7 @@
     "deploy:rinkeby": "hardhat run scripts/deploy-rinkeby.ts --network rinkeby",
     "verify:rinkeby": "hardhat verify --network rinkeby 0xa27D1ceBFC8c2719bCda9880fE5882e0d8a733dD",
     "invoke": "hardhat run --network localhost scripts/invoke.ts",
-    "typegen": "typechain --target=ethers-v5 --outDir=types artifacts/contracts/CryptoBubblesArt.sol/CryptoBubblesArt.json",
+    "typegen": "typechain --target=ethers-v5 --outDir=types artifacts/contracts/Bubbles.sol/Bubbles.json",
     "test": "hardhat test test/cba/setup"
   },
   "semistandard": {
@@ -50,5 +50,8 @@
     "ts-node": "^9.1.1",
     "typechain": "^3.0.0",
     "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "solc": "^0.8.3"
   }
 }

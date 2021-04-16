@@ -10,7 +10,7 @@ const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   gasReporter: {
     currency: 'USD',
-    gasPrice: 90
+    gasPrice: 200
   },
   networks: {
     ...process.env.RINKEBY_DEPLOYER_SECRET && {
