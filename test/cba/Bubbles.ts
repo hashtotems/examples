@@ -1,39 +1,4 @@
 import { ethers } from "ethers";
-// import { ethers } from "hardhat";
-
-async function transact(
-  this: Mocha.Context,
-  amount: number,
-  price: ethers.BigNumber
-) {
-  process.stdout.write(".");
-
-  return this.contract
-    .connect(Math.random() > 0.5 ? this.address1 : this.address2)
-    .purchase(amount.toString(), { value: price });
-}
-
-async function drain(
-  this: Mocha.Context,
-  pairs: { amount: number; price: string }[]
-) {
-  for (const pair of pairs) {
-    const _amount = Math.min(pair.amount, 20);
-    let total = pair.amount;
-
-    while (total > 0) {
-      const toPurchase = Math.min(total, _amount);
-      await transact.bind(this)(
-        toPurchase,
-        ethers.utils
-          .parseEther(pair.price)
-          .mul(ethers.BigNumber.from(toPurchase))
-      );
-      total -= _amount;
-    }
-    process.stdout.write("\n");
-  }
-}
 
 describe("Contract", function () {
   describe("Stats", function () {
@@ -297,7 +262,7 @@ describe("Contract", function () {
       await this.lockGiveaway();
     });
 
-    it("should estimate how much wei is required for purchasing", async function () {
+    it("should estimate how much ether is required for purchasing", async function () {
       await this.contract
         .connect(this.address1)
         .estimatePrice("0")
@@ -311,11 +276,12 @@ describe("Contract", function () {
       const price = await this.contract
         .connect(this.address1)
         .estimatePrice("20");
+
       ethers.utils.formatEther(price.toString()).should.equal("1.0"); // 20 * 0.05
     });
   });
 
-  describe("LuckyDraw", function () {
+  describe.skip("LuckyDraw", function () {
     beforeEach(async function () {
       await this.contract.unpause();
       await this.lockGiveaway();
@@ -381,3 +347,37 @@ describe("Contract", function () {
     });
   });
 });
+
+async function transact(
+  this: Mocha.Context,
+  amount: number,
+  price: ethers.BigNumber
+) {
+  process.stdout.write(".");
+
+  return this.contract
+    .connect(Math.random() > 0.5 ? this.address1 : this.address2)
+    .purchase(amount.toString(), { value: price });
+}
+
+async function drain(
+  this: Mocha.Context,
+  pairs: { amount: number; price: string }[]
+) {
+  for (const pair of pairs) {
+    const _amount = Math.min(pair.amount, 20);
+    let total = pair.amount;
+
+    while (total > 0) {
+      const toPurchase = Math.min(total, _amount);
+      await transact.bind(this)(
+        toPurchase,
+        ethers.utils
+          .parseEther(pair.price)
+          .mul(ethers.BigNumber.from(toPurchase))
+      );
+      total -= _amount;
+    }
+    process.stdout.write("\n");
+  }
+}

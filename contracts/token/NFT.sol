@@ -6,8 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-
-import "hardhat/console.sol";
+// import "hardhat/console.sol";
 
 contract NFT is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
     string private _baseTokenURI;

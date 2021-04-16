@@ -1,18 +1,16 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.3;
 
-import "./token/presets/LuckyDraw.sol";
+import "./token/NFT.sol";
 import "./util/Tiers.sol";
 import "./util/Giveaway.sol";
-import "./util/Random.sol";
+// import "hardhat/console.sol";
 
-import "hardhat/console.sol";
-
-contract Bubbles is LuckyDraw, Giveaway, Tiers, Random {
+contract Bubbles is NFT, Giveaway, Tiers {
     uint256 private constant MAX_SUPPLY = 10000;
     uint256 private constant MAX_AMOUNT = 20;
 
-    constructor() LuckyDraw(
+    constructor() NFT(
         "CryptoBubblesArt", 
         "BUBBLE",
         "ipfs://QmNviSTqyXu3H6ZucUiKnP94G3NAnqLREjJtn4Rv8gw1ms/"
@@ -25,13 +23,7 @@ contract Bubbles is LuckyDraw, Giveaway, Tiers, Random {
         _addPriceTier( 998, 1.00 ether);
         _addPriceTier(   5, 5.00 ether);
         
-        _setLuckyDrawPercentage(1); // 1%
         _setGiveawayAmount(55);
-        
-        // TODO: implement giveaway separately, 
-        // prevent it to be the locking factor for the contract
-
-        // console.log(Random.random(10000));
         
         _pause();
     }
@@ -48,14 +40,6 @@ contract Bubbles is LuckyDraw, Giveaway, Tiers, Random {
         whenNotPaused 
         afterGiveaway returns (uint256) {
         return super.purchase(amount);
-    }
-
-    function canDraw () internal virtual view override returns (bool) {
-        return totalSupply() == MAX_SUPPLY;
-    }
-
-    function drawWinner () internal virtual view override returns (address) {
-        return ownerOf(Random.random(totalSupply()));
     }
     
     function estimatePrice(uint256 amount) public override view virtual
