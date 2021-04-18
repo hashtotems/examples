@@ -1,32 +1,34 @@
-import { ethers } from "hardhat";
+import { ethers, tasks } from "hardhat";
 import { BubblesFactory } from "../types";
 
 (async () => {
-  const Factory = (await ethers.getContractFactory(
-    "Bubbles"
-  )) as BubblesFactory;
+  console.log(tasks.verify.action);
 
-  const contract = await Factory.deploy();
-  await contract.deployed();
+  // const Factory = (await ethers.getContractFactory(
+  //   "Bubbles"
+  // )) as BubblesFactory;
 
-  if (await contract.paused()) {
-    await contract.unpause();
-  }
+  // const contract = await Factory.deploy();
+  // await contract.deployed();
 
-  const userAddress = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266";
-  const signer = ethers.provider.getSigner(userAddress);
+  // if (await contract.paused()) {
+  //   await contract.unpause();
+  // }
 
-  const contractWithSigner = contract.connect(signer);
+  // const userAddress = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266";
+  // const signer = ethers.provider.getSigner(userAddress);
 
-  console.log(
-    await contractWithSigner.getBubbles("20", {
-      value: ethers.utils.parseEther("1.0"), // 20 * 0.05 ether
-    })
-  );
+  // const contractWithSigner = contract.connect(signer);
 
-  console.log(await contract.ownerOf("0"));
-  console.log(await contract.tokenURI("0"));
-  console.log(await contract.tokensOfOwner(userAddress));
+  // console.log(
+  //   await contractWithSigner.getBubbles("20", {
+  //     value: ethers.utils.parseEther("1.0"), // 20 * 0.05 ether
+  //   })
+  // );
+
+  // console.log(await contract.ownerOf("0"));
+  // console.log(await contract.tokenURI("0"));
+  // console.log(await contract.tokensOfOwner(userAddress));
 })();
 
 process.on("unhandledRejection", (reason, promise) => {

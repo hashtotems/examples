@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+
 // import "hardhat/console.sol";
 
 contract NFT is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
@@ -20,9 +21,15 @@ contract NFT is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
         _baseTokenURI = baseTokenURI;
     }
 
-    function purchase(uint256 amount) public virtual payable whenNotPaused returns (uint256 cost) {
+    function purchase(uint256 amount)
+        public
+        payable
+        virtual
+        whenNotPaused
+        returns (uint256 cost)
+    {
         uint256 estimatedPrice = estimatePrice(amount);
-        
+
         require(msg.value == estimatedPrice, "not exact amount");
 
         for (uint256 i = 0; i < amount; i++) {
@@ -32,21 +39,28 @@ contract NFT is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
         return estimatedPrice;
     }
 
-    function estimatePrice(uint256 amount) public view virtual returns (uint256 price) {
+    function estimatePrice(uint256 amount)
+        public
+        view
+        virtual
+        returns (uint256 price)
+    {
         assert(false);
         return 0 * amount;
     }
-
 
     /**
      * @notice Returns a list of all tokenIds assigned to an address.
      * Taken from https://ethereum.stackexchange.com/questions/54959/list-erc721-tokens-owned-by-a-user-on-a-web-page
      * @param user get tokens of a given user
      */
-    
-    function tokensOfOwner(address user) external view returns(uint256[] memory ownerTokens) {
+
+    function tokensOfOwner(address user)
+        external
+        view
+        returns (uint256[] memory ownerTokens)
+    {
         uint256 tokenCount = balanceOf(user);
-        
 
         if (tokenCount == 0) {
             return new uint256[](0);
@@ -82,24 +96,24 @@ contract NFT is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
             super.supportsInterface(interfaceId);
     }
 
-    function pause () public onlyOwner whenNotPaused {
+    function pause() public onlyOwner whenNotPaused {
         _pause();
     }
 
-    function unpause () public onlyOwner whenPaused {
+    function unpause() public onlyOwner whenPaused {
         _unpause();
     }
 
     /**
      * @dev insept _baseTokenURI into ERC721
      */
-    
+
     function _baseURI() internal view virtual override returns (string memory) {
         return _baseTokenURI;
     }
-    
+
     /**
-     * @dev 
+     * @dev
      */
 
     function _beforeTokenTransfer(

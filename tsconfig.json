@@ -7,7 +7,7 @@
     "outDir": "dist",
     "types": ["mocha"]
   },
-  "include": ["./scripts", "./test", "./types", "module.d.ts"],
-  "files": ["./hardhat.config.ts"]
+  "include": ["./scripts", "./test", "./types", "./tasks", "module.d.ts"],
+  "files": ["./hardhat.config.ts", "./hardhat.rinkeby.ts"]
 }
 
