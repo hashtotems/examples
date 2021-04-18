@@ -5,7 +5,6 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
 
 // import "hardhat/console.sol";
 
@@ -30,6 +29,13 @@ contract NFT is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
     {
         uint256 estimatedPrice = estimatePrice(amount);
 
+        // console.log(
+        //     "price: %s, value: %s, amount: %s",
+        //     estimatedPrice,
+        //     msg.value,
+        //     amount
+        // );
+
         require(msg.value == estimatedPrice, "not exact amount");
 
         for (uint256 i = 0; i < amount; i++) {
@@ -45,7 +51,7 @@ contract NFT is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
         virtual
         returns (uint256 price)
     {
-        assert(false);
+        require(false, "Override in implementation");
         return 0 * amount;
     }
 

@@ -1,8 +1,8 @@
 {
   "network": "rinkeby",
   "contract": "Bubbles",
-  "address": "0x8C25e4F730F8D09c3E9e9dA3A71257Cb370d9Cb8",
+  "address": "0xdDA5Bd20590338a055BB0b24C5B364E465E22664",
   "deployer": "0xBbeC8593c584177c11EF2f88B7BD5B8078d8487B",
-  "estimatedGas": 4868991,
-  "timestamp": "2021-04-18T12:11:31.154Z"
+  "estimatedGas": 2456820,
+  "timestamp": "2021-04-18T14:53:27.165Z"
 }

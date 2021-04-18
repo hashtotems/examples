@@ -7,7 +7,7 @@
     "compile": "hardhat compile",
     "node": "hardhat node",
     "console": "hardhat console",
-    "format": "prettier --write contracts/**/*.sol",
+    "format": "prettier --write contracts/**/*.sol contracts/*.sol",
     "format:ts": "prettier --write scripts/*.ts test/**/*.ts",
     "deploy": "hardhat --config hardhat.config.ts --network localhost deploy Bubbles",
     "deploy:hardhat": "hardhat --config hardhat.config.ts --network localhost deploy Bubbles",
@@ -16,7 +16,8 @@
     "verify:rinkeby": "hardhat --config hardhat.rinkeby.ts --network rinkeby etherscan Bubbles",
     "invoke:rinkeby": "hardhat --config hardhat.rinkeby.ts --network rinkeby invoke",
     "typegen": "typechain --target=ethers-v5 --outDir=types artifacts/contracts/Bubbles.sol/Bubbles.json",
-    "test": "hardhat test test/cba/setup"
+    "test": "hardhat test test/cba/setup",
+    "e2e": "hardhat test test/cba/integration"
   },
   "semistandard": {
     "env": [

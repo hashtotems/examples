@@ -5,7 +5,7 @@ abstract contract Giveaway {
     uint256 private _amount;
     uint256 private _supply = 0;
 
-    function remainingGiveaway() public virtual view returns (uint256) {
+    function remainingGiveaway() public view virtual returns (uint256) {
         return _amount - _supply;
     }
 

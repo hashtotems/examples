@@ -47,7 +47,7 @@ describe("Contract", function () {
       });
     });
 
-    describe("Giveaway", function () {
+    describe.skip("Giveaway", function () {
       beforeEach(async function () {
         await this.contract.unpause();
       });
@@ -103,7 +103,7 @@ describe("Contract", function () {
   describe("Preconditions Satisfied", function () {
     beforeEach(async function () {
       await this.contract.unpause();
-      await this.lockGiveaway();
+      // await this.lockGiveaway();
     });
 
     it("should permit transactions", async function () {
@@ -116,7 +116,7 @@ describe("Contract", function () {
   describe("Transact", function () {
     beforeEach(async function () {
       await this.contract.unpause();
-      await this.lockGiveaway();
+      // await this.lockGiveaway();
     });
 
     it("should reject transactions with incorrect amount", async function () {
@@ -136,7 +136,7 @@ describe("Contract", function () {
       await transact(
         "2100000000000000000000000000000000000000000000000",
         "0.05"
-      ).should.be.rejectedWith("not enought supply");
+      ).should.be.rejectedWith("not enough supply");
     });
 
     it("should reject transactions when supply is depleted (slow)", async function () {
@@ -162,7 +162,7 @@ describe("Contract", function () {
 
       // one token left at this stage
 
-      await transact("2", "10").should.be.rejectedWith("not enought supply");
+      await transact("2", "10").should.be.rejectedWith("not enough supply");
       await transact("1", "5");
       await transact("1", "5").should.be.rejectedWith("finished");
     });
@@ -203,7 +203,7 @@ describe("Contract", function () {
       index.toString().should.equal("0");
 
       const owner = await this.contract.tokenOfOwnerByIndex(address, index);
-      owner.toString().should.equal("55");
+      owner.toString().should.equal("0");
     });
 
     it("should set a placeholder token uri", async function () {
@@ -228,16 +228,16 @@ describe("Contract", function () {
       list
         .map((s) => s.toString())
         .should.deep.equal(
-          new Array(10).fill(0).map((_, i) => (i + 55).toString())
+          new Array(10).fill(0).map((_, i) => (i).toString())
         ); // [55,56,57,58,59,60,61,62,63,64]
 
-      const uri = await this.contract.tokenURI("55");
+      const uri = await this.contract.tokenURI("0");
 
       uri.should.equal(
-        "ipfs://QmNviSTqyXu3H6ZucUiKnP94G3NAnqLREjJtn4Rv8gw1ms/55"
+        "ipfs://QmNviSTqyXu3H6ZucUiKnP94G3NAnqLREjJtn4Rv8gw1ms/0"
       );
 
-      const address = await this.contract.ownerOf("64");
+      const address = await this.contract.ownerOf("9");
 
       address.toString().should.equal(this.address1.address);
     });
@@ -259,7 +259,7 @@ describe("Contract", function () {
   describe("Estimate", function () {
     beforeEach(async function () {
       await this.contract.unpause();
-      await this.lockGiveaway();
+      // await this.lockGiveaway();
     });
 
     it("should estimate how much ether is required for purchasing", async function () {

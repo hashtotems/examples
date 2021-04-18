@@ -57,22 +57,22 @@ task("invoke", "Invokes contract mechanics (Bubbles)")
       console.log(`Contract is already unpaused.`);
     }
 
-    const remainingGiveaway = (await instance.remainingGiveaway()).toNumber();
+    // const remainingGiveaway = (await instance.remainingGiveaway()).toNumber();
 
-    if (remainingGiveaway > 0) {
-      console.log(`Pending claim of ${remainingGiveaway} giveaway tokens. Claiming...`);
+    // if (remainingGiveaway > 0) {
+    //   console.log(`Pending claim of ${remainingGiveaway} giveaway tokens. Claiming...`);
 
-      await sleep(15000); 
+    //   await sleep(15000); 
 
-      await chunksOf(remainingGiveaway, 10, network.name !== 'localhost').forEach(async (amount) => 
-        instance.lockGiveaway(amount, {
-          gasPrice: 150000000000
-        }));
+    //   await chunksOf(remainingGiveaway, 10, network.name !== 'localhost').forEach(async (amount) => 
+    //     instance.lockGiveaway(amount, {
+    //       gasPrice: 150000000000
+    //     }));
 
-      console.log(`Remaining balance after claim of giveaway: ${ethers.utils.formatEther(await owner.getBalance())} ETH`);
-    } else {
-      console.log('Giveaway is already claimed');
-    }
+    //   console.log(`Remaining balance after claim of giveaway: ${ethers.utils.formatEther(await owner.getBalance())} ETH`);
+    // } else {
+    //   console.log('Giveaway is already claimed');
+    // }
 
     console.log('Purchasing a token');
 

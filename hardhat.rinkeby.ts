@@ -1,9 +1,6 @@
 import config from "./hardhat.config";
 import "./tasks/etherscan";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
 export default Object.assign(config, {
   networks: {
     rinkeby: {
