@@ -11,7 +11,7 @@
     "format:ts": "prettier --write scripts/*.ts test/**/*.ts",
     "deploy": "hardhat run --network localhost scripts/deploy.ts",
     "deploy:rinkeby": "hardhat run scripts/deploy-rinkeby.ts --network rinkeby",
-    "verify:rinkeby": "hardhat verify --network rinkeby 0xa27D1ceBFC8c2719bCda9880fE5882e0d8a733dD",
+    "verify:rinkeby": "hardhat verify --network rinkeby 0x597EaeA5d2663FB6903f17AC63E2560f3C26ACda",
     "invoke": "hardhat run --network localhost scripts/invoke.ts",
     "typegen": "typechain --target=ethers-v5 --outDir=types artifacts/contracts/Bubbles.sol/Bubbles.json",
     "test": "hardhat test test/cba/setup"
