@@ -10,9 +10,11 @@
     "format": "prettier --write contracts/**/*.sol",
     "format:ts": "prettier --write scripts/*.ts test/**/*.ts",
     "deploy": "hardhat --config hardhat.config.ts --network localhost deploy Bubbles",
+    "deploy:hardhat": "hardhat --config hardhat.config.ts --network localhost deploy Bubbles",
+    "invoke:hardhat": "hardhat --config hardhat.config.ts --network localhost invoke",
     "deploy:rinkeby": "hardhat --config hardhat.rinkeby.ts --network rinkeby deploy Bubbles",
     "verify:rinkeby": "hardhat --config hardhat.rinkeby.ts --network rinkeby etherscan Bubbles",
-    "invoke": "hardhat run --config hardhat.config.ts --network localhost scripts/invoke.ts",
+    "invoke:rinkeby": "hardhat --config hardhat.rinkeby.ts --network rinkeby invoke",
     "typegen": "typechain --target=ethers-v5 --outDir=types artifacts/contracts/Bubbles.sol/Bubbles.json",
     "test": "hardhat test test/cba/setup"
   },

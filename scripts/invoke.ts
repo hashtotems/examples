@@ -1,37 +1,43 @@
-import { ethers, tasks } from "hardhat";
-import { BubblesFactory } from "../types";
+// import { ethers, run } from "hardhat";
+// import { BubblesFactory } from "../types";
 
-(async () => {
-  console.log(tasks.verify.action);
+// (async () => {
+//   const Factory = (await ethers.getContractFactory("Bubbles")) as BubblesFactory;
 
-  // const Factory = (await ethers.getContractFactory(
-  //   "Bubbles"
-  // )) as BubblesFactory;
+//   Factory.attach();
 
-  // const contract = await Factory.deploy();
-  // await contract.deployed();
+//   // const contract = await Factory
+//   //   .deploy().then((c) => 
+//   //     c.deployed());
+  
+//   const owner = await ethers.provider.getSigner(0);
 
-  // if (await contract.paused()) {
-  //   await contract.unpause();
-  // }
+//   const contractWithOwner = contract.connect(owner);
+//   // const contractWithAddress1 = contract.connect(address1);
+//   // const contractWithAddress2 = contract.connect(address2);
 
-  // const userAddress = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266";
-  // const signer = ethers.provider.getSigner(userAddress);
+//   if (await contract.paused()) {
+//     await contractWithOwner.unpause();
+//     await contractWithOwner.lockGiveaway(10);
+//     await contractWithOwner.lockGiveaway(10);
+//     await contractWithOwner.lockGiveaway(10);
+//     await contractWithOwner.lockGiveaway(10);
+//     await contractWithOwner.lockGiveaway(10);
+//     await contractWithOwner.lockGiveaway(5);
+//   }
 
-  // const contractWithSigner = contract.connect(signer);
+//   console.log(
+//     await contractWithOwner.getBubbles("20", {
+//       value: ethers.utils.parseEther("1.0"), // 20 * 0.05 ether
+//     })
+//   );
 
-  // console.log(
-  //   await contractWithSigner.getBubbles("20", {
-  //     value: ethers.utils.parseEther("1.0"), // 20 * 0.05 ether
-  //   })
-  // );
+//   // console.log(await contract.ownerOf("0"));
+//   // console.log(await contract.tokenURI("0"));
+//   // console.log(await contract.tokensOfOwner(userAddress));
+// })();
 
-  // console.log(await contract.ownerOf("0"));
-  // console.log(await contract.tokenURI("0"));
-  // console.log(await contract.tokensOfOwner(userAddress));
-})();
-
-process.on("unhandledRejection", (reason, promise) => {
-  console.error(reason);
-  process.exit(1);
-});
+// process.on("unhandledRejection", (reason, promise) => {
+//   console.error(reason);
+//   process.exit(1);
+// });

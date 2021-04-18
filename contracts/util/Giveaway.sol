@@ -5,6 +5,10 @@ abstract contract Giveaway {
     uint256 private _amount;
     uint256 private _supply = 0;
 
+    function remainingGiveaway() public virtual view returns (uint256) {
+        return _amount - _supply;
+    }
+
     function _setGiveawayAmount(uint256 amount) internal {
         _amount = amount;
     }

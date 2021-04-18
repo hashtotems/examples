@@ -3,6 +3,7 @@ import "@nomiclabs/hardhat-waffle";
 import "@nomiclabs/hardhat-etherscan";
 import "hardhat-gas-reporter";
 import "./tasks/deploy";
+import "./tasks/invoke";
 
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
