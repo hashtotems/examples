@@ -6,11 +6,9 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-// import "hardhat/console.sol";
-
 contract NFT is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
     string private _baseTokenURI;
-    uint256 private _maxAmount;
+    bool private _selling = false;
 
     constructor(
         string memory name,
@@ -20,39 +18,29 @@ contract NFT is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
         _baseTokenURI = baseTokenURI;
     }
 
-    function purchase(uint256 amount)
-        public
-        payable
-        virtual
-        whenNotPaused
-        returns (uint256 cost)
-    {
-        uint256 estimatedPrice = estimatePrice(amount);
-
-        // console.log(
-        //     "price: %s, value: %s, amount: %s",
-        //     estimatedPrice,
-        //     msg.value,
-        //     amount
-        // );
-
-        require(msg.value == estimatedPrice, "not exact amount");
-
-        for (uint256 i = 0; i < amount; i++) {
-            _safeMint(msg.sender, totalSupply());
-        }
-
-        return estimatedPrice;
+    function withdraw() external payable virtual onlyOwner {
+        require(payable(msg.sender).send(address(this).balance), ".");
     }
 
-    function estimatePrice(uint256 amount)
-        public
-        view
-        virtual
-        returns (uint256 price)
-    {
-        require(false, "Override in implementation");
-        return 0 * amount;
+    function togglePause() external onlyOwner {
+        if (paused()) {
+            _unpause();
+        } else {
+            _pause();
+        }
+    }
+
+    function toggleSale() external onlyOwner {
+        _selling = !_selling;
+    }
+
+    function selling() external view returns (bool status) {
+        return _selling;
+    }
+
+    modifier whenSelling {
+        require(_selling, "sale is not active");
+        _;
     }
 
     /**
@@ -79,10 +67,6 @@ contract NFT is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
         }
     }
 
-    function withdraw() public payable virtual onlyOwner {
-        require(payable(msg.sender).send(address(this).balance), ".");
-    }
-
     /**
      * @dev Compat with ERC721, ERC721Metadata, ERC721Enumerable
      *      See {IERC165-supportsInterface}.
@@ -95,19 +79,7 @@ contract NFT is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
         override(ERC721, ERC721Enumerable)
         returns (bool)
     {
-        return
-            interfaceId == type(IERC721).interfaceId ||
-            interfaceId == type(IERC721Metadata).interfaceId ||
-            interfaceId == type(IERC721Enumerable).interfaceId ||
-            super.supportsInterface(interfaceId);
-    }
-
-    function pause() public onlyOwner whenNotPaused {
-        _pause();
-    }
-
-    function unpause() public onlyOwner whenPaused {
-        _unpause();
+        return super.supportsInterface(interfaceId);
     }
 
     /**
@@ -116,6 +88,18 @@ contract NFT is ERC721, ERC721Enumerable, ERC721Pausable, Ownable {
 
     function _baseURI() internal view virtual override returns (string memory) {
         return _baseTokenURI;
+    }
+
+    /**
+     * @dev update token uri on sale end
+     */
+
+    function setBaseTokenURI(string memory baseTokenURI)
+        public
+        virtual
+        onlyOwner
+    {
+        _baseTokenURI = baseTokenURI;
     }
 
     /**

@@ -7,3 +7,5 @@ types
 .env
 github
 github.pub
+.DS_Store
+deployments

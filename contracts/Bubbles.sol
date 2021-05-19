@@ -2,118 +2,71 @@
 pragma solidity ^0.8.3;
 
 import "./token/NFT.sol";
-// import "./util/Tiers.sol";
-// import "./util/Giveaway.sol";
 
 // import "hardhat/console.sol";
 
 contract Bubbles is NFT {
-    uint256 private constant MAX_SUPPLY = 9945; // 55 tokens in giveaway?
+    uint256 private constant MAX_SUPPLY = 5555;
     uint256 private constant MAX_AMOUNT = 20;
+    uint256 private constant PRICE = 0.1 ether;
+    bytes32 private _finalBaseTokenURIHash;
 
-    constructor()
-        NFT(
-            "CryptoBubblesArt",
-            "BUBBLE",
-            "ipfs://QmNviSTqyXu3H6ZucUiKnP94G3NAnqLREjJtn4Rv8gw1ms/"
-        )
-    {
+    constructor(
+        string memory name,
+        string memory symbol,
+        string memory baseURI,
+        address root,
+        bytes32 finalBaseTokenURIHash
+    ) NFT(name, symbol, baseURI) {
+        _finalBaseTokenURIHash = finalBaseTokenURIHash;
+        transferOwnership(root);
         _pause();
     }
 
-    function __estimatePrice(
-        uint256 amount,
-        uint256 currentSupply,
-        uint256 maxSupply,
-        uint256 maxAmount
-    ) public pure returns (uint256) {
-        require(currentSupply < maxSupply, "finished");
-        require((currentSupply + amount) <= maxSupply, "not enough supply");
-        require(amount > 0 && amount <= maxAmount, "fixed amount");
+    function purchase(uint256 amount)
+        external
+        payable
+        virtual
+        whenNotPaused
+        whenSelling
+    {
+        require(amount > 0, "not enough");
+        require(amount < 21, "too much");
 
-        uint256 left = currentSupply;
-        uint256 right = currentSupply + amount;
-        uint256 price = 0;
+        require(msg.value == amount * PRICE, "not exact amount");
+        require(totalSupply() + amount < MAX_SUPPLY, "not enough supply");
 
-        uint256 tierLimit = 2948;
-        uint256 tierPrice = 0.05 ether;
-
-        if (left < tierLimit) {
-            price +=
-                ((right < tierLimit ? right : tierLimit) - left) *
-                tierPrice;
-            left = tierLimit;
+        for (uint256 i = 0; i < amount; i++) {
+            _safeMint(msg.sender, totalSupply());
         }
-
-        if (left > right) return price;
-
-        tierLimit += 2498;
-        tierPrice = 0.07 ether;
-
-        if (left < tierLimit) {
-            price +=
-                ((right < tierLimit ? right : tierLimit) - left) *
-                tierPrice;
-            left = tierLimit;
-        }
-
-        if (left > right) return price;
-
-        tierLimit += 1998;
-        tierPrice = 0.20 ether;
-
-        if (left < tierLimit) {
-            price +=
-                ((right < tierLimit ? right : tierLimit) - left) *
-                tierPrice;
-            left = tierLimit;
-        }
-
-        if (left > right) return price;
-
-        tierLimit += 1498;
-        tierPrice = 0.50 ether;
-
-        if (left < tierLimit) {
-            price +=
-                ((right < tierLimit ? right : tierLimit) - left) *
-                tierPrice;
-            left = tierLimit;
-        }
-
-        if (left > right) return price;
-
-        tierLimit += 998;
-        tierPrice = 1.00 ether;
-
-        if (left < tierLimit) {
-            price +=
-                ((right < tierLimit ? right : tierLimit) - left) *
-                tierPrice;
-            left = tierLimit;
-        }
-
-        if (left > right) return price;
-
-        tierLimit += 5;
-        tierPrice = 5.00 ether;
-
-        if (left < tierLimit) {
-            price +=
-                ((right < tierLimit ? right : tierLimit) - left) *
-                tierPrice;
-        }
-
-        return price;
     }
 
-    function estimatePrice(uint256 amount)
+    function reserve(uint256 amount) external onlyOwner {
+        require(amount > 0, "not enough");
+        require(amount < 21, "too much");
+
+        for (uint256 i = 0; i < amount; i++) {
+            _safeMint(msg.sender, totalSupply());
+        }
+    }
+
+    /**
+     * @dev update token uri on sale end
+     * we only set base token uri if it passes provenance
+     * eg. keccak256(abi.encodePacked("ipfs://cid1/"))
+     * should match originally prepared
+     */
+
+    function setBaseTokenURI(string memory baseTokenURI)
         public
-        view
         virtual
         override
-        returns (uint256)
+        onlyOwner
     {
-        return __estimatePrice(amount, totalSupply(), MAX_SUPPLY, MAX_AMOUNT);
+        require(
+            keccak256(abi.encodePacked(baseTokenURI)) == _finalBaseTokenURIHash,
+            ".."
+        );
+        super.setBaseTokenURI(baseTokenURI);
     }
 }

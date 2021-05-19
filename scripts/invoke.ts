@@ -7,9 +7,9 @@
 //   Factory.attach();
 
 //   // const contract = await Factory
-//   //   .deploy().then((c) => 
+//   //   .deploy().then((c) =>
 //   //     c.deployed());
-  
+
 //   const owner = await ethers.provider.getSigner(0);
 
 //   const contractWithOwner = contract.connect(owner);
